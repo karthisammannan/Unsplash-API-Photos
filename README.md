@@ -2,7 +2,7 @@
 
 ## Search Photos
 
-<img src="https://github.com/karthisammannan/Unsplash-API-Photos/blob/master/Screens/Screenshot_20180328-001237.png" width="300" height="800">
+<img src="https://github.com/karthisammannan/Unsplash-API-Photos/blob/master/Screens/Screenshot_20180328-001237.png" width="400" height="600">
 
 
 
