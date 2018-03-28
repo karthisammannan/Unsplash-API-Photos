@@ -1,8 +1,4 @@
-<img align="left" src="https://github.com/karthisammannan/Unsplash-API-Photos/blob/master/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" width="50" height="50"> 
-
-
-
-
+<img src="https://github.com/karthisammannan/Unsplash-API-Photos/blob/master/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" width="50" height="50"> 
 
 # Unsplash-API-Photos
 
