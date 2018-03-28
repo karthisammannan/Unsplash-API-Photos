@@ -21,8 +21,9 @@ import com.bumptech.glide.request.transition.Transition;
 import java.util.List;
 
 /**
- * Created by Raghuvarma on 27/3/2018.
+ * Created by Karthi on 27/3/2018.
  */
+
 
 public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder> {
 
@@ -43,7 +44,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
         this.context = context;
         this.itemList = itemList;
     }
-
+    //append photos to list
     public void addItems(List<Result> itemList) {
         for (Result result:itemList) {
             this.itemList.add(result);
@@ -51,7 +52,6 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
         }
 
     }
-
     @Override
     public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.photos_list_item, null);
@@ -63,7 +63,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
     public void onBindViewHolder(final PhotoViewHolder holder, int position) {
         Result result = itemList.get(position);
         holder.thumbnail.getLayoutParams().height = 350;
-
+        //Glide library to load the image
         Glide.with(context)
                 .load(result.getUrls().getSmall())
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
@@ -74,12 +74,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
     public int getItemCount() {
         return this.itemList.size();
     }
-
+    // clear photos from photos list
     public void removeItems() {
         this.itemList.clear();
         notifyDataSetChanged();
     }
-
+    //initialize the adapter item views
     class PhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView thumbnail;
@@ -92,7 +92,6 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
 
         @Override
         public void onClick(View view) {
-            //  Toast.makeText(view.getContext(), "Clicked Position = " + getPosition(), Toast.LENGTH_SHORT).show();
         }
     }
 }

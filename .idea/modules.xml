@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/androidTask.iml" filepath="$PROJECT_DIR$/androidTask.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Unsplash-API-Photos.iml" filepath="$PROJECT_DIR$/Unsplash-API-Photos.iml" />
+      <module fileurl="file://C:\Users\Raghuvarma\AndroidStudioProjects\Unsplash-API-Photos\androidTask.iml" filepath="C:\Users\Raghuvarma\AndroidStudioProjects\Unsplash-API-Photos\androidTask.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Raghuvarma\AndroidStudioProjects\Unsplash-API-Photos\app\app.iml" filepath="C:\Users\Raghuvarma\AndroidStudioProjects\Unsplash-API-Photos\app\app.iml" />
     </modules>
   </component>
 </project>

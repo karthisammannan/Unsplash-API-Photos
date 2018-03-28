@@ -1,7 +1,6 @@
 package com.android.karthi.androidtask;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -18,7 +17,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.karthi.androidtask.Adapter.PhotosAdapter;
 import com.android.karthi.androidtask.DataService.ApiClient;
@@ -39,15 +37,19 @@ import io.reactivex.schedulers.Schedulers;
 import static com.android.karthi.androidtask.Const.Const.CLIENT_ID;
 import static com.android.karthi.androidtask.Const.Const.PER_PAGE;
 
+/**
+ * Created by Karthi on 27/3/2018.
+ */
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    GridLayoutManager staggeredGridLayoutManager;
+    GridLayoutManager gridLayoutManager;
     private ApiService apiService;
-    LinearLayout empty_photos;
+    LinearLayout emptyPhotos;
     private CompositeDisposable disposable = new CompositeDisposable();
-    PhotosAdapter rcAdapter;
+    PhotosAdapter photosAdapter;
     RecyclerView recyclerView;
-    private ProgressBar progressBar,RounProgress;
+    private ProgressBar progressBar, rounProgress;
     FloatingSearchView floatingSearchView;
 
     private boolean loading = false;
@@ -61,25 +63,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //initialize views and retrofit service
         apiService = ApiClient.getClient().create(ApiService.class);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        RounProgress = (ProgressBar) findViewById(R.id.progressBarRound);
+        rounProgress = (ProgressBar) findViewById(R.id.progressBarRound);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        empty_photos = (LinearLayout) findViewById(R.id.empty_photos);
+        emptyPhotos = (LinearLayout) findViewById(R.id.empty_photos);
         floatingSearchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
-
-
+        //Grid layout manger for recyclerview with sapan 2
         recyclerView.setHasFixedSize(true);
-
-        staggeredGridLayoutManager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);
-
-        rcAdapter = new PhotosAdapter(this, itemList);
-        recyclerView.setAdapter(rcAdapter);
+        gridLayoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        //add data to adapter
+        photosAdapter = new PhotosAdapter(this, itemList);
+        recyclerView.setAdapter(photosAdapter);
         getListItemData(query);
         setUpLoadMoreListener();
-
+        //floating On search Action
         floatingSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
@@ -87,52 +87,63 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSearchAction(String currentQuery) {
+                pageNumber = 1;
+                loading = true;
                 getListItemData(currentQuery);
                 itemList.clear();
-                rcAdapter.removeItems();
+                photosAdapter.removeItems();
             }
         });
     }
 
+    //register the network connection callback
     @Override
     protected void onResume() {
         super.onResume();
         registerConnectivityNetworkMonitorForAPI21AndUp();
     }
 
+    //Retrieve data from unsplash api
     private void getListItemData(String localQuery) {
         query = localQuery;
-        Log.d(TAG, "getListItemData: " + localQuery);
+        //To run on main thread
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(RounProgress.getVisibility()!= View.VISIBLE)
+                if (rounProgress.getVisibility() != View.VISIBLE)
                     progressBar.setVisibility(View.VISIBLE);
             }
         });
-
+        //RX java disposable to cancel the api request, whenever destory/close activty
         disposable.add(apiService
                 .getPhotos(query, CLIENT_ID, pageNumber, PER_PAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())                  //Seperate Thread
+                .observeOn(AndroidSchedulers.mainThread())      //Main Thread
                 .subscribeWith(new DisposableSingleObserver<PhotoResponse>() {
                     @Override
                     public void onSuccess(PhotoResponse photoResponse) {
                         if (photoResponse.getResults().isEmpty()) {
-                            hideProgress();
+                            if (pageNumber == 1)
+                                hideProgress();
                         } else {
-                            rcAdapter.addItems(photoResponse.getResults());
+                            //update the photos adapter from load more data
+                            photosAdapter.addItems(photoResponse.getResults());
                             loading = false;
-                            RounProgress.setVisibility(View.GONE);
+                            rounProgress.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);
-                            empty_photos.setVisibility(View.GONE);
+                            emptyPhotos.setVisibility(View.GONE);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        hideProgress();
-                        snacbar_show("Network Connection Error");
+                        if (pageNumber > 1) {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Snackbar.make(recyclerView, "No more photos found", Snackbar.LENGTH_LONG).show();
+                        } else {
+                            hideProgress();
+                            snacbar_show("Network Connection Error");
+                        }
                     }
                 }));
     }
@@ -147,8 +158,8 @@ public class MainActivity extends AppCompatActivity {
                                    int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                totalItemCount = staggeredGridLayoutManager.getItemCount();
-                lastVisibleItem = staggeredGridLayoutManager.findLastVisibleItemPosition();
+                totalItemCount = gridLayoutManager.getItemCount();
+                lastVisibleItem = gridLayoutManager.findLastVisibleItemPosition();
                 if (!loading
                         && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
                     pageNumber++;
@@ -159,13 +170,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //unregister the disposable components
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposable.clear();
+    }
+
     @SuppressLint("NewApi")
     private void registerConnectivityNetworkMonitorForAPI21AndUp() {
-
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return;
         }
-
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkRequest.Builder builder = new NetworkRequest.Builder();
         connectivityManager.registerNetworkCallback(
@@ -198,9 +214,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //hide progress
     public void hideProgress() {
-        RounProgress.setVisibility(View.GONE);
-        empty_photos.setVisibility(View.VISIBLE);
+        rounProgress.setVisibility(View.GONE);
+        emptyPhotos.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
     }
 
@@ -209,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        //implicit intent to launch settings screen
                         Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
                         startActivity(intent);
                     }

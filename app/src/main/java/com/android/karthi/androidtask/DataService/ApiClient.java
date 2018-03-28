@@ -15,16 +15,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Karthi on 9/3/2018.
+ * Created by Karthi on 27/3/2018.
  */
 
+
 public class ApiClient {
-    private static String TAG = ApiClient.class.getSimpleName();
     private static Retrofit retrofit = null;
     private static int REQUEST_TIMEOUT = 60;
     private static OkHttpClient okHttpClient;
 
-
+    //initialize retrofit
     public static Retrofit getClient() {
 
         if (okHttpClient == null)
@@ -40,13 +40,13 @@ public class ApiClient {
         }
         return retrofit;
     }
-
+    //initialize okhttp
     private static void initOkHttp() {
         OkHttpClient.Builder httpClient = new OkHttpClient().newBuilder()
                 .connectTimeout(REQUEST_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(REQUEST_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(REQUEST_TIMEOUT, TimeUnit.SECONDS);
-
+        //to trace network logs
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -67,10 +67,5 @@ public class ApiClient {
         });
 
         okHttpClient = httpClient.build();
-    }
-
-    public static void resetApiClient() {
-        retrofit = null;
-        okHttpClient = null;
     }
 }

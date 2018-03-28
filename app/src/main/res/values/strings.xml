@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">androidTask</string>
+    <string name="app_name">Unsplash Photos</string>
     <string name="no_photos_found">No Photos Found</string>
 </resources>
