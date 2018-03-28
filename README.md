@@ -4,7 +4,7 @@
 
 ## Search Photos
 
-<img src="https://github.com/karthisammannan/Unsplash-API-Photos/blob/master/Screens/Screenshot_20180328-001237.png" width="350" height="600">
+<img src="https://github.com/karthisammannan/Unsplash-API-Photos/blob/master/Screens/pixel_quite_black_portrait1.png" width="650" height="650">
 
 # Features!
 
@@ -13,6 +13,6 @@
   
   
 ## Search Photos by keyword
-<img src="https://github.com/karthisammannan/Unsplash-API-Photos/blob/master/Screens/Screenshot_20180328-001428.png" width="350" height="600">
+<img src="https://github.com/karthisammannan/Unsplash-API-Photos/blob/master/Screens/pixel_quite_black_portrait2.png" width="650" height="650">
 
 
