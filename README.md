@@ -13,6 +13,6 @@
   
   
 ## Search Photos by keyword
-<img src="https://github.com/karthisammannan/Unsplash-API-Photos/blob/master/Screens/pixel_quite_black_portrait1.png" width="650" height="650">
+<img src="https://github.com/karthisammannan/Unsplash-API-Photos/blob/master/Screens/pixel_quite_black_portrait2.png" width="650" height="650">
 
 
