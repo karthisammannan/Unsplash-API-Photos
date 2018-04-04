@@ -40,6 +40,10 @@ public class DownloadService extends IntentService {
             url = new URL(strUrl);
             String pathl = "";
             try {
+                File directory = new File(DOWNLOAD_PATH);
+                if (! directory.exists()){
+                    directory.mkdir();
+                }
                 File f = new File(DOWNLOAD_PATH);
                 if (f.exists()) {
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();

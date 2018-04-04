@@ -18,5 +18,5 @@ public class Const {
     public static final String My_INTENT_DOWNLOAD = "com.android.karthi.androidtask.download_url";
     public static final String My_INTENT_RESPONSE_DOWNLOAD = "com.android.karthi.androidtask.download_url_response";
     public static final String My_BROADCAST_ACTION = "com.android.karthi.androidtask.intent_servicew.ALL_DONE";
-    public static final String DOWNLOAD_PATH  = Environment.getExternalStorageDirectory().toString()+"/Unsplash";
+    public static final String DOWNLOAD_PATH  = Environment.getExternalStorageDirectory().toString()+"/Unsplash/";
 }
