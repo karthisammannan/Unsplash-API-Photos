@@ -4,14 +4,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     card_view:cardUseCompatPadding="true"
     card_view:cardCornerRadius="2dp"
     android:layout_marginBottom="16dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/divider_color">
 
         <ImageView
             android:id="@+id/item_photo"

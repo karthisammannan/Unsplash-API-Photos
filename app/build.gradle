@@ -49,4 +49,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:4.3.1"
     //Floating Searchview
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    //photoview
+    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+
 }
