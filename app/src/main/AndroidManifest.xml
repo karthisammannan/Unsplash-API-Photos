@@ -21,9 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ViewPagerActivity">
-
-        </activity>
+        <activity android:name=".Activity.ViewPagerActivity"></activity>
         <activity android:name=".Activity.PhotoAcitivity">
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
@@ -38,6 +36,8 @@
         <service
             android:name=".Service.DownloadService"
             android:exported="false" />
+
+        <activity android:name=".HomeActivity"></activity>
     </application>
 
 </manifest>

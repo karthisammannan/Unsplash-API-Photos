@@ -24,4 +24,5 @@
     <color name="suggestion_item_regular_color">#FAFAFA</color>
     <color name="suggestion_list_color">#FFFFFF</color>
     <color name="transparent">#00000000</color>
+    <color name="light_black">#88000000</color>
 </resources>
