@@ -17,9 +17,11 @@ import static com.android.karthi.androidtask.Const.Const.DOWNLOAD_PATH;
 import static com.android.karthi.androidtask.Const.Const.My_BROADCAST_ACTION;
 import static com.android.karthi.androidtask.Const.Const.My_INTENT_DOWNLOAD;
 import static com.android.karthi.androidtask.Const.Const.My_INTENT_RESPONSE_DOWNLOAD;
+import static com.android.karthi.androidtask.Const.Const.NOTIFY_URL;
 
 public class DownloadService extends IntentService {
     private static final String TAG = "DownloadService";
+    String downloadPath = "";
 
     public DownloadService() {
         super("My download service");
@@ -38,7 +40,6 @@ public class DownloadService extends IntentService {
             Log.d(TAG, "path: " + strUrl);
 
             url = new URL(strUrl);
-            String pathl = "";
             try {
                 File directory = new File(DOWNLOAD_PATH);
                 if (! directory.exists()){
@@ -50,9 +51,9 @@ public class DownloadService extends IntentService {
                     InputStream is = con.getInputStream();
                     String pathr = url.getPath();
                     String filename = pathr.substring(pathr.lastIndexOf('/') + 1);
-                    pathl = DOWNLOAD_PATH + filename + ".jpg";
-                    Log.d(TAG, "path: " + pathl);
-                    FileOutputStream fos = new FileOutputStream(pathl);
+                    downloadPath = DOWNLOAD_PATH + filename + ".jpg";
+                    Log.d(TAG, "path: " + downloadPath);
+                    FileOutputStream fos = new FileOutputStream(downloadPath);
                     int lenghtOfFile = con.getContentLength();
                     byte data[] = new byte[1024];
                     long total = 0, result, old_result = 0;
@@ -87,6 +88,7 @@ public class DownloadService extends IntentService {
             e.printStackTrace();
         }
         broadcastIntent.putExtra(My_INTENT_RESPONSE_DOWNLOAD, 0);
+        broadcastIntent.putExtra(NOTIFY_URL,downloadPath);
         localBroadcastManager.sendBroadcast(broadcastIntent);
         //send broadcast to activity
         Log.d(TAG, "onHandleIntent: service_stopped");

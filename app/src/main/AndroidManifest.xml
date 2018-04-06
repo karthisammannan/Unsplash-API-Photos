@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ViewPagerActivity"></activity>
+        <activity android:name=".Activity.ViewPagerActivity"
+            android:theme="@style/AppThemeTransparent"></activity>
         <activity android:name=".Activity.PhotoAcitivity">
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />

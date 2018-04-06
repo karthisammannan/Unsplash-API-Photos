@@ -1,13 +1,20 @@
 package com.android.karthi.androidtask.Activity;
 
+import android.Manifest;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.PagerAdapter;
@@ -15,11 +22,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.karthi.androidtask.POJO.Result;
 import com.android.karthi.androidtask.R;
@@ -30,8 +37,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
 
-import static android.R.attr.uiOptions;
-
 import java.util.ArrayList;
 
 import static com.android.karthi.androidtask.Const.Const.My_BROADCAST_ACTION;
@@ -39,6 +44,8 @@ import static com.android.karthi.androidtask.Const.Const.My_INTENT;
 import static com.android.karthi.androidtask.Const.Const.My_INTENT_DOWNLOAD;
 import static com.android.karthi.androidtask.Const.Const.My_INTENT_POSITION;
 import static com.android.karthi.androidtask.Const.Const.My_INTENT_RESPONSE_DOWNLOAD;
+import static com.android.karthi.androidtask.Const.Const.NOTIFY_OPEN_URL;
+import static com.android.karthi.androidtask.Const.Const.NOTIFY_URL;
 
 public class ViewPagerActivity extends AppCompatActivity {
     private ArrayList<Result> itemList;
@@ -50,18 +57,31 @@ public class ViewPagerActivity extends AppCompatActivity {
     ResponseReceiver responseReceiver;
     NotificationManager mNotifyManager;
     NotificationCompat.Builder mBuilder;
-    boolean flag = true;
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        public void run() {
+            hideSystemUI();
+        }
+    };
+    int mLastSystemUIVisibility = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);  //No title bar is set for the activity
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pager);
+        // Retrieve the AppCompact Toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        int stausbarHeight = getStatusBarHeight();
 
-
+        // Set the padding to match the Status Bar height
+        toolbar.setPadding(0, stausbarHeight, 0, 0);
+        //Set toolbar height programatically
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) toolbar.getLayoutParams();
+        params.height = getActionbarHeight() + stausbarHeight;
+        toolbar.setLayoutParams(params);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         icoBack = (ImageView) findViewById(R.id.ico_back);
         icoDownload = (ImageView) findViewById(R.id.ico_download);
         icoBack.setOnClickListener(new View.OnClickListener() {
@@ -73,25 +93,26 @@ public class ViewPagerActivity extends AppCompatActivity {
         icoDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Start the Service
-                Log.d(TAG, "intent_service_started");
-                //show notificaion
-                mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mBuilder = new NotificationCompat.Builder(ViewPagerActivity.this);
-                mBuilder.setContentTitle("File Download")
-                        .setContentText("Download in progress")
-                        .setSmallIcon(android.R.drawable.stat_sys_download)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                                R.mipmap.ic_launcher));
-                Intent intent = new Intent(ViewPagerActivity.this, DownloadService.class);
-                intent.putExtra(My_INTENT_DOWNLOAD, itemList.get(viewPager.getCurrentItem()).getUrls().getRegular());
-                startService(intent);
+                if (isStoragePermissionGranted()) {
+                    download();
+                }
             }
         });
         itemList = getIntent().getParcelableArrayListExtra(My_INTENT);
         position = getIntent().getIntExtra(My_INTENT_POSITION, 0);
         viewPager.setAdapter(new SamplePagerAdapter());
         viewPager.setCurrentItem(position);
+        startHandler();
+        View decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if ((visibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0) {
+                    startHandler();
+                }
+                mLastSystemUIVisibility = visibility;
+            }
+        });
     }
 
     @Override
@@ -104,10 +125,81 @@ public class ViewPagerActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.unregisterReceiver(responseReceiver);
+    }
+
+    private void download() {
+        String url =  itemList.get(viewPager.getCurrentItem()).getUrls().getRegular();
+        //Start the Service & Notificaion
+
+        mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mBuilder = new NotificationCompat.Builder(ViewPagerActivity.this,"channel_id");
+        mBuilder.setContentTitle("File Download")
+                .setContentText("Download in progress")
+                .setSmallIcon(android.R.drawable.stat_sys_download)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                        R.mipmap.ic_launcher));
+        Intent intent = new Intent(ViewPagerActivity.this, DownloadService.class);
+        intent.putExtra(My_INTENT_DOWNLOAD,url);
+        startService(intent);
+    }
+
+    public boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG, "Permission is granted");
+                return true;
+            } else {
+                Log.v(TAG, "Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG, "Permission is granted");
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.v(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
+            //resume tasks needing this permission
+            download();
+        } else {
+            Snackbar.make(toolbar,"Permission Failed",Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    private void startHandler() {
+        //remove previous callbacks
+        handler.removeCallbacks(runnable);
+        handler.postDelayed(runnable, 3000);
+    }
+
+    private int getActionbarHeight() {
+        // Calculate ActionBar height
+        TypedValue tv = new TypedValue();
+        int actionBarHeight = 0;
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        }
+        return actionBarHeight;
+    }
+
+    // A method to find height of the status bar
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     class SamplePagerAdapter extends PagerAdapter {
@@ -136,30 +228,10 @@ public class ViewPagerActivity extends AppCompatActivity {
         }
 
         public void fullScreen() {
-            if (flag) {
-                // Hide status bar
+            if ((mLastSystemUIVisibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0)
                 hideSystemUI();
-                flag = false;
-            } else {
-                // Show status bar
+            else
                 showSystemUI();
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                flag = true;
-            }
-        }
-        private void hideSystemUI() {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
-        }
-        private void showSystemUI() {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
         @Override
@@ -180,13 +252,20 @@ public class ViewPagerActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             int message = intent.getIntExtra(My_INTENT_RESPONSE_DOWNLOAD, 0);
-            Log.d(TAG, "onReceive: " + message);
-
             if (message != 0) {
                 mBuilder.setProgress(100, message, false);
                 // Displays the progress bar on notification
                 mNotifyManager.notify(0, mBuilder.build());
             } else {
+                Intent notificationIntent = new Intent(ViewPagerActivity.this, PhotoAcitivity.class);
+                Log.d(TAG, "NOTIFY_URL: "+intent.getStringExtra(NOTIFY_URL));
+                notificationIntent.putExtra(NOTIFY_OPEN_URL,intent.getStringExtra(NOTIFY_URL));
+                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(ViewPagerActivity.this, 0,
+                        notificationIntent, 0);
+                mBuilder.setContentIntent(pendingIntent);
+                mBuilder.setAutoCancel(true);
                 mBuilder.setContentText("Download complete");
                 // Removes the progress bar
                 mBuilder.setProgress(0, 0, false);
@@ -195,4 +274,23 @@ public class ViewPagerActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void hideSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        getSupportActionBar().hide();
+    }
+
+    public void showSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getSupportActionBar().show();
+    }
+
 }
