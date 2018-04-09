@@ -47,7 +47,14 @@ public class PhotoAcitivity extends AppCompatActivity {
         rounProgress = (ProgressBar) findViewById(R.id.progressBarRound);
         init();
     }
+    @Override
+    protected void onNewIntent(Intent intent)
+    {
+        super.onNewIntent(intent);
+        Log.d(TAG, "selectedImageURI ::  " +  getIntent().getStringExtra(NOTIFY_OPEN_URL));
 
+        //code
+    }
     private void init() {
         if (isStoragePermissionGranted()) {
             // array of supported extensions (use a List if you prefer)

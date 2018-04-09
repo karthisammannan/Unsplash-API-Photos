@@ -260,8 +260,7 @@ public class ViewPagerActivity extends AppCompatActivity {
                 Intent notificationIntent = new Intent(ViewPagerActivity.this, PhotoAcitivity.class);
                 Log.d(TAG, "NOTIFY_URL: "+intent.getStringExtra(NOTIFY_URL));
                 notificationIntent.putExtra(NOTIFY_OPEN_URL,intent.getStringExtra(NOTIFY_URL));
-                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(ViewPagerActivity.this, 0,
                         notificationIntent, 0);
                 mBuilder.setContentIntent(pendingIntent);

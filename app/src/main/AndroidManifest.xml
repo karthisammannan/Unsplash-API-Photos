@@ -38,7 +38,7 @@
             android:name=".Service.DownloadService"
             android:exported="false" />
 
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".Activity.HomeActivity"></activity>
     </application>
 
 </manifest>
