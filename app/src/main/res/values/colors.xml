@@ -25,4 +25,8 @@
     <color name="suggestion_list_color">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="light_black">#88000000</color>
+    <color name="category">#4A148C</color>
+    <color name="search">#0091EA</color>
+    <color name="downloads">#455A64</color>
+    <color name="favorite">#00AA8D</color>
 </resources>
