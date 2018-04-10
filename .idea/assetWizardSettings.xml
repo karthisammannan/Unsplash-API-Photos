@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/file/ic_cloud_download_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_style_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,10 +33,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_cloud_storage_download" />
-                            <entry key="sourceFile" value="C:\Users\Raghuvarma\Downloads\cloud-storage-download.svg" />
+                            <entry key="outputName" value="ic_style_black_24dp" />
+                            <entry key="sourceFile" value="C:\Users\Raghuvarma\Downloads\icon.svg" />
                           </map>
                         </option>
                       </PersistentState>

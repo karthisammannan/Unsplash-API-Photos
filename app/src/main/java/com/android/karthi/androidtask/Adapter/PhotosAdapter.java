@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.karthi.androidtask.Activity.CategoryActivity;
 import com.android.karthi.androidtask.Activity.MainActivity;
 import com.android.karthi.androidtask.Activity.ViewPagerActivity;
 import com.android.karthi.androidtask.POJO.Result;
@@ -73,7 +74,8 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,ViewPagerActivity.class);
+                //Intent intent = new Intent(context,ViewPagerActivity.class);
+                Intent intent = new Intent(context, CategoryActivity.class);
                 Log.d(TAG, "onClick: "+itemList.size());
                 intent.putExtra(My_INTENT,itemList);
                 intent.putExtra(My_INTENT_POSITION,position);

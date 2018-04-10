@@ -1,0 +1,66 @@
+{
+  "categories": [
+    {
+      "category_name": "Photography",
+      "category_images": [
+        "https://images.unsplash.com/photo-1470116109808-c71d8bd6f4a7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a978c37ada95f65084fefb63dff67163&auto=format&fit=crop&w=250&q=80"
+      ]
+    },
+    {
+      "category_name": "Food",
+      "category_images": [
+        "https://images.unsplash.com/photo-1504382262782-5b4ece78642b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=725a022e25933d5d334307e718f6ae35&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1460306855393-0410f61241c7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=af920b383b3a7b889beb1dd53998ecd3&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1454334281609-87a89762912c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b94887cb7166b4f15e25c4e42956853c&auto=format&fit=crop&w=250&q=80"
+      ]
+    },
+    {
+      "category_name": "Quotes",
+      "category_images": [
+        "https://images.unsplash.com/photo-1521866337281-e7207a7159c9?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6bb6a4275a2c8be998a60f842268c55d&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=98bfb6da87072431cb1d54750bf2e638&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1506784926709-22f1ec395907?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=c0a516c606e1fb3b60fff20fe5e88c2e&auto=format&fit=crop&w=250&q=80"
+      ]
+    },
+    {
+      "category_name": "Nature",
+      "category_images": [
+        "https://images.unsplash.com/photo-1444465693019-aa0b6392460d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f085fc9ac3af45f1498607ab047305c0&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1487622750296-6360190669a1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0966f85ba805ff53ab5c270e14548d6b&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1504679194239-39f4b4172e0c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ea93bd766ec37d89ed4cd145f3e8c89f&auto=format&fit=crop&w=250&q=80"
+      ]
+    },
+    {
+      "category_name": "Love",
+      "category_images": [
+        "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=9d49070f91739d4253479b2a2abdc505&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1494859632785-32abaf5241f4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d14df830124639bc917a8d2c691daeaa&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1500644813727-ac2ce0ae31f8?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=80242dff1a569f7aabfb3565d6dddcd1&auto=format&fit=crop&w=250&q=80"
+      ]
+    },
+    {
+      "category_name": "Flowers",
+      "category_images": [
+        "https://images.unsplash.com/photo-1496861083958-175bb1bd5702?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=e45c7c7526c630eb1bbbbd46ad8b0461&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1516248451845-cb2956789cb8?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=48313cd00e03df226a2e631102ef6849&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1501660034796-9860da6cb741?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f7d3582072f34928963be19bf38e2bc0&auto=format&fit=crop&w=250&q=80"
+      ]
+    },
+    {
+      "category_name": "House",
+      "category_images": [
+        "https://images.unsplash.com/photo-1461686935642-0023fdb6f7f4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2385fdedf1ed73de0ea2ac58b554c2d1&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1490174651618-63469b221857?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=e22f2fca63097c3490108b6dfd82d0a7&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1507124484497-b7f446e65519?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=c700a234506c6b2093116821e20a9d42&auto=format&fit=crop&w=250&q=80"
+      ]
+    },
+    {
+      "category_name": "Business",
+      "category_images": [
+        "https://images.unsplash.com/photo-1494707924465-e1426acb48cb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d7cac606b3752d340f2c342f32536727&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1504247025080-d81dd33c7faf?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=937e616e050f45378414cd7654f19a52&auto=format&fit=crop&w=250&q=80",
+        "https://images.unsplash.com/photo-1493970866116-fe0cad1a5727?ixlib=rb-0.3.5&s=04451534cfdd15bf512718527c91e40d&auto=format&fit=crop&w=250&q=80"
+      ]
+    }
+  ]
+}
