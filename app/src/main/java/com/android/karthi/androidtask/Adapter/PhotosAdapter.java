@@ -41,12 +41,10 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
 
     private ArrayList<Result> itemList;
     private Context context;
-    private OnFragmentInteractionListener mListener;
     private static final String TAG = "PhotosAdapter";
-    public PhotosAdapter(Context context, ArrayList<Result> itemList,OnFragmentInteractionListener mListener) {
+    public PhotosAdapter(Context context, ArrayList<Result> itemList) {
         this.context = context;
         this.itemList = itemList;
-        this. mListener = mListener;
     }
     //append photos to list
     public void addItems(List<Result> itemList) {
@@ -74,8 +72,8 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(context,ViewPagerActivity.class);
-                Intent intent = new Intent(context, CategoryActivity.class);
+                Intent intent = new Intent(context,ViewPagerActivity.class);
+              //  Intent intent = new Intent(context, CategoryActivity.class);
                 Log.d(TAG, "onClick: "+itemList.size());
                 intent.putExtra(My_INTENT,itemList);
                 intent.putExtra(My_INTENT_POSITION,position);

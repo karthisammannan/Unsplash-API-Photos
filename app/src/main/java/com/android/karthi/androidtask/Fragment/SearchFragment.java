@@ -1,4 +1,5 @@
-package com.android.karthi.androidtask.Activity;
+package com.android.karthi.androidtask.Fragment;
+
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,21 +10,33 @@ import android.net.NetworkRequest;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.android.karthi.androidtask.Adapter.CategoryAdapter;
 import com.android.karthi.androidtask.Adapter.PhotosAdapter;
+import com.android.karthi.androidtask.Adapter.VerticalSpaceItemDecoration;
 import com.android.karthi.androidtask.DataService.ApiClient;
 import com.android.karthi.androidtask.DataService.ApiService;
+import com.android.karthi.androidtask.POJO.Category;
+import com.android.karthi.androidtask.POJO.ListCategory;
 import com.android.karthi.androidtask.POJO.PhotoResponse;
 import com.android.karthi.androidtask.POJO.Result;
 import com.android.karthi.androidtask.R;
+import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,11 +47,8 @@ import io.reactivex.schedulers.Schedulers;
 import static com.android.karthi.androidtask.Const.Const.CLIENT_ID;
 import static com.android.karthi.androidtask.Const.Const.PER_PAGE;
 
-/**
- * Created by Karthi on 27/3/2018.
- */
+public class SearchFragment extends Fragment {
 
-public class MainActivity extends AppCompatActivity  {
     private static final String TAG = "MainActivity";
     GridLayoutManager gridLayoutManager;
     private ApiService apiService;
@@ -55,33 +65,36 @@ public class MainActivity extends AppCompatActivity  {
     private int lastVisibleItem, totalItemCount;
     private String query = "baby";
     private boolean connectionFlag = false;
+    public SearchFragment() {
+    }
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_main, container, false);
         //initialize views and retrofit service
         apiService = ApiClient.getClient().create(ApiService.class);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        rounProgress = (ProgressBar) findViewById(R.id.progressBarRound);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        emptyPhotos = (LinearLayout) findViewById(R.id.empty_photos);
-     //   floatingSearchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        rounProgress = (ProgressBar) view.findViewById(R.id.progressBarRound);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        emptyPhotos = (LinearLayout) view.findViewById(R.id.empty_photos);
+//        floatingSearchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
         //Grid layout manger for recyclerview with sapan 2
         recyclerView.setHasFixedSize(true);
-        gridLayoutManager = new GridLayoutManager(this, 2);
+        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         //add data to adapter
-        photosAdapter = new PhotosAdapter(this, itemList);
+        photosAdapter = new PhotosAdapter(getActivity(), itemList);
         recyclerView.setAdapter(photosAdapter);
         getListItemData(query);
         registerConnectivityNetworkMonitorForAPI21AndUp();
         setUpLoadMoreListener();
-        //floating On search Action
-     /*   floatingSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+      /*  //floating On search Action
+        floatingSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
             }
+
             @Override
             public void onSearchAction(String currentQuery) {
                 pageNumber = 1;
@@ -91,19 +104,17 @@ public class MainActivity extends AppCompatActivity  {
                 photosAdapter.removeItems();
             }
         });*/
+        return view;
     }
 
-    //register the network connection callback
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    //Retrieve data from unsplash api
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }  //Retrieve data from unsplash api
     private void getListItemData(String localQuery) {
         query = localQuery;
         //To run on main thread
-        runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (rounProgress.getVisibility() != View.VISIBLE)
@@ -164,11 +175,10 @@ public class MainActivity extends AppCompatActivity  {
                 }
             }
         });
-    }
+    }  //unregister the disposable components
 
-    //unregister the disposable components
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         disposable.clear();
     }
@@ -178,7 +188,7 @@ public class MainActivity extends AppCompatActivity  {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return;
         }
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkRequest.Builder builder = new NetworkRequest.Builder();
         connectivityManager.registerNetworkCallback(
                 builder.build(),
@@ -230,5 +240,6 @@ public class MainActivity extends AppCompatActivity  {
                     }
                 }).show();
     }
+
 
 }

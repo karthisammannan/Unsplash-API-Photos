@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/reveal_bg"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/dark_gray" />
+
+    <View
+        android:id="@+id/reveal"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/dark_gray" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -10,14 +21,25 @@
         android:layout_height="?attr/actionBarSize">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Categories"
+            android:text="Category"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
     </android.support.v7.widget.Toolbar>
 
-    <!-- Content Container -->
-   <include layout="@layout/bottom_navigation"/>
+    <include
+        android:id="@+id/bottom"
+        layout="@layout/bottom_navigation" />
 
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom"
+        android:layout_below="@id/reveal_bg">
+
+    </FrameLayout>
 </RelativeLayout>

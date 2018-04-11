@@ -1,16 +1,11 @@
 package com.android.karthi.androidtask.Activity;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +27,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 import static com.android.karthi.androidtask.Const.Const.NOTIFY_OPEN_URL;
-import static com.android.karthi.androidtask.Const.Const.NOTIFY_URL;
 
 public class PhotoAcitivity extends AppCompatActivity {
     PhotoView photoView;

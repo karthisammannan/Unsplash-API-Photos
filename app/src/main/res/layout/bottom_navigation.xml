@@ -1,107 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@color/divider_color"
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/action_category"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/divider_color"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-        <LinearLayout
-            android:id="@+id/action_category"
-            android:layout_width="0dp"
+        <ImageView
+            android:id="@+id/ico_category"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_local_see_black_24dp"
+            android:tint="@color/dark_gray" />
+
+        <TextView
+            android:textSize="12sp"
+            android:id="@+id/tvw_category"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/ico_category"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_local_see_black_24dp"
-                android:tint="@color/dark_gray" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Category"
-                android:textColor="@color/dark_gray" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/action_search"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/ico_search"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_search_black_24dp"
-                android:tint="@color/dark_gray" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search"
-                android:textColor="@color/dark_gray" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/action_downloads"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/ico_downloads"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_photo_black_24dp"
-                android:tint="@color/dark_gray" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Downloads"
-                android:textColor="@color/dark_gray" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/action_favorite"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/ico_favorite"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_style_black_24dp"
-                android:tint="@color/dark_gray" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Favorite"
-                android:textColor="@color/dark_gray" />
-        </LinearLayout>
-
-
+            android:text="Category"
+            android:textColor="@color/dark_gray" />
     </LinearLayout>
-</RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/action_search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/ico_search"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_search_black_24dp"
+            android:tint="@color/dark_gray" />
+
+        <TextView
+            android:textSize="12sp"
+            android:id="@+id/tvw_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:textColor="@color/dark_gray" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/action_downloads"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/ico_downloads"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_photo_black_24dp"
+            android:tint="@color/dark_gray" />
+
+        <TextView
+            android:textSize="12sp"
+            android:id="@+id/tvw_downloads"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Downloads"
+            android:textColor="@color/dark_gray" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/action_favorite"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/ico_favorite"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_style_black_24dp"
+            android:tint="@color/dark_gray" />
+
+        <TextView
+            android:textSize="12sp"
+            android:id="@+id/tvw_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Favorite"
+            android:textColor="@color/dark_gray" />
+    </LinearLayout>
+
+
+</LinearLayout>
