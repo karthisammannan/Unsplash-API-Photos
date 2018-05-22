@@ -9,7 +9,7 @@
 # Features!
 
   - We can Search photos by keyword.
-  - Get multiple page of photo results using pagination.
+  - Get multiple page of photo results using unsplash.
   
   
 ## Search Photos by keyword
